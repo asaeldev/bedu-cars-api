@@ -19,12 +19,6 @@
 | ------------ | ----------- | ---------------------------------------------- |
 | NODE_ENV     |             | dev                                            |
 | PORT         |             | 300                                            |
-| DB_USER      |             | ""                                             |
-| DB_PASSWORD  |             | ""                                             |
-| DB_HOST      |             | ""                                             |
-| DB_NAME      |             | ""                                             |
-| DB_NAME      |             | ""                                             |
-| DB_PORT      |             | ""                                             |
 | DATABASE_URL |             | "postgres://user:pass@example.com:5432/dbname" |
 | JWT_SECRET   |             | ""                                             |
 

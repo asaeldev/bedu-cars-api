@@ -15,11 +15,7 @@ if (config.env === 'production') {
   };
 }
 
-const USER = encodeURIComponent(config.dbUser);
-const PASSWORD = encodeURIComponent(config.dbPassword);
-const DB_URI = `postgres://${USER}:${PASSWORD}@${config.dbHost}:${config.dbPort}/${config.dbName}`;
-
-const sequelize = new Sequelize(DB_URI, options);
+const sequelize = new Sequelize(config.dbUri, options);
 
 setupModels(sequelize);
 sequelize.sync();

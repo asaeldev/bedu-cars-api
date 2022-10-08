@@ -15,14 +15,18 @@ const CarsSchema = {
   },
   year: {
     type: DataTypes.CHAR(4),
-  },
-  price: {
-    type: DataTypes.NUMBER,
-    allowNull: false,
     validate: {
       isNumeric: true,
       len: [4, 4],
     },
+  },
+  brand: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  price: {
+    type: DataTypes.DECIMAL,
+    allowNull: false,
   },
   color: {
     type: DataTypes.STRING,
@@ -31,16 +35,18 @@ const CarsSchema = {
 };
 
 class Cars extends Model {
-  static associate(models) {}
+  static associate(models) {
+    this.hasMany(models.Sales);
+  }
 
   static config(sequelize) {
     return {
       sequelize,
       tableName: CARS_TABLE,
-      modelName: 'Car',
-      timestamps: false,
+      modelName: 'Cars',
+      timestamps: true,
     };
   }
 }
 
-module.exports = { CARS_TABLE, Cars, CarsSchema };
+module.exports = { CARS_TABLE, CarsSchema, Cars };

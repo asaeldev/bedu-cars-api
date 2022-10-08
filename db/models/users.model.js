@@ -9,6 +9,10 @@ const UsersSchema = {
     autoIncrement: true,
     primaryKey: true,
   },
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
   userName: {
     type: DataTypes.STRING,
   },
@@ -42,14 +46,16 @@ const UsersSchema = {
 };
 
 class Users extends Model {
-  static associate() {}
+  static associate(models) {
+    this.hasMany(models.Sales);
+  }
 
   static config(sequelize) {
     return {
       sequelize,
       tableName: USERS_TABLE,
       modelName: 'Users',
-      timestamps: false,
+      timestamps: true,
     };
   }
 }
