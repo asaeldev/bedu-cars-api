@@ -38,11 +38,11 @@ const UsersSchema = {
     },
   },
   password_hash: {
-    type: DataTypes.CHAR(64),
+    type: DataTypes.TEXT(512),
     allowNull: true,
   },
   password_salt: {
-    type: DataTypes.CHAR(64),
+    type: DataTypes.STRING,
     allowNull: true,
   },
   role: {

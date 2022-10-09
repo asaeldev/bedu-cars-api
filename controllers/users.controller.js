@@ -31,9 +31,16 @@ class UsersController {
 
   async create(data, role = 'customer') {
     try {
-      return models.Users.create({ ...data, role });
+      const { password } = data;
+      const { salt, hash } = Users.createPassword(password);
+      return await models.Users.create({
+        ...data,
+        role,
+        password_hash: hash,
+        password_salt: salt,
+      });
     } catch (error) {
-      throw new boom.internal('Internal Server Error');
+      throw new boom.internal(error.message);
     }
   }
 
@@ -61,11 +68,6 @@ class UsersController {
 async function signUp(req, res) {
   const body = req.body;
   try {
-    const user = await Users.create(body);
-    const { salt, hash } = Users.createPassword(body['password']);
-    user.passsword_salt = salt;
-    user.passsword_hash = hash;
-    await user.save();
     res.status(201).json(user);
   } catch (err) {
     if (

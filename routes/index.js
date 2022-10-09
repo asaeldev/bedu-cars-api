@@ -1,15 +1,16 @@
 const express = require('express');
-const cars = require('./cars.route');
-const sales = require('./sales.route');
-const user = require('./users.route');
+const carsRouter = require('./cars.route');
+const salesRouter = require('./sales.route');
+const customersRouter = require('./customers.route');
+const administratorsRouter = require('./administrators.route');
 
 const routerApi = (app) => {
   const router = express.Router();
   app.use('/api/v1', router);
-  router.use('/cars', cars);
-  router.use('/customers', user);
-  router.use('/administrators', user);
-  router.use('/sales', sales);
+  router.use('/cars', carsRouter);
+  router.use('/customers', customersRouter);
+  router.use('/administrators', administratorsRouter);
+  router.use('/sales', salesRouter);
 };
 
 module.exports = routerApi;
