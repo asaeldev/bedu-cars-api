@@ -1,5 +1,5 @@
 const express = require('express');
-const cars = require('S./cars.route');
+const cars = require('./cars.route');
 const sales = require('./sales.route');
 const customers = require('./customers.route');
 const administrators = require('./administrators.route');
