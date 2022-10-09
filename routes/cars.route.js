@@ -1,7 +1,7 @@
-const router = require('express').Router();
-const carsController = new CarsController();
 const CarsController = require('../controllers/cars.controller');
+const router = require('express').Router();
 
+const carsController = new CarsController();
 
 router.get('/', async (req, res) => {
   const cars = await carsController.all();

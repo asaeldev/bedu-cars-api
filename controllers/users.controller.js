@@ -68,12 +68,15 @@ async function signUp(req, res) {
     await user.save();
     res.status(201).json(user);
   } catch (err) {
-    if (["SequelizeValidationError", "SequelizeUniqueConstraintError"].includes(err.name)) {
+    if (
+      ['SequelizeValidationError', 'SequelizeUniqueConstraintError'].includes(
+        err.name
+      )
+    ) {
       return res.status(400).json({
-        error: err.errors.map(e => e.message)
-      })
-    }
-    else {
+        error: err.errors.map((e) => e.message),
+      });
+    } else {
       throw err;
     }
   }
@@ -83,13 +86,12 @@ async function logIn(req, res) {
   const body = req.body;
   const user = Users.findOne({ userName: body['userName'] });
   if (!user) {
-    return res.status(404).json({ error: "User not found" });
+    return res.status(404).json({ error: 'User not found' });
   }
   if (user.validatePassword(body['password'])) {
-    return res.status(200).json({mensaje: "Welcome" });
+    return res.status(200).json({ mensaje: 'Welcome' });
   } else {
-    return res.status(400).json({mensaje: "Incorrect Password"})
+    return res.status(400).json({ mensaje: 'Incorrect Password' });
   }
 }
-module.exports = UsersController;
-module.exports = { signUp, logIn }
+module.exports = { UsersController, signUp, logIn };

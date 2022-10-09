@@ -1,15 +1,15 @@
-const router = require('express').Router();
+const express = require('express');
 const cars = require('./cars.route');
 const sales = require('./sales.route');
-const user = user('./user.route');
+const user = require('./users.route');
 
-router.get('/', (req, res) => {
-    res.json({ 'info': 'Welcome to BEDU-CARS API' });
-});
+const routerApi = (app) => {
+  const router = express.Router();
+  app.use('/api/v1', router);
+  router.use('/cars', cars);
+  router.use('/customers', user);
+  router.use('/administrators', user);
+  router.use('/sales', sales);
+};
 
-router.use('/cars.route', cars);
-router.use('/sales.route', sales);
-router.use('/user.route', user);
-
-
-module.exports = router;
+module.exports = routerApi;

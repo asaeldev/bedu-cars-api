@@ -1,8 +1,12 @@
 const config = require('./config/config');
 const express = require('express');
 const cors = require('cors');
+const {
+  ormErrorHandler,
+  boomErrorHandler,
+} = require('./middlewares/error.handler');
 const sequelize = require('./libs/sequelize');
-const routes = require('./routes')
+const routerApi = require('./routes');
 
 const app = express();
 
@@ -20,25 +24,16 @@ const corsSettings = {
 
 app.use(express.json());
 app.use(cors(corsSettings));
-app.use('/', routes);
 
 app.get('/', (req, res) => {
   res.send('Welcome to Bedu Used Cars for Sale API!');
 });
 
-// Body Parser
+routerApi(app);
 
-const bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(ormErrorHandler);
+app.use(boomErrorHandler);
 
-//Configuration of routes
-
-app.use('/v1', require('./routes'));
-
-// Starting Server
-
-const PORT = 4001;
-app.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
-})
+app.listen(config.port, () => {
+  console.log('App running on port:', config.port);
+});

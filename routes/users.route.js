@@ -1,7 +1,12 @@
 const router = require('express').Router();
+
+const {
+  UsersController,
+  signUp,
+  logIn,
+} = require('../controllers/users.controller');
+
 const usersController = new UsersController();
-const UsersController = require('../controllers/users.controller');
-const { signUp, logIn } = require('../controllers/users.controller');
 
 router.get('/customers', async (req, res) => {
   const customers = await usersController.all();
@@ -121,7 +126,8 @@ router.delete('/administrators/:id', async (req, res, next) => {
     next(error);
   }
 });
+
 router.post('/signUp', signUp);
-router.post('/logIn', logIn)
+router.post('/logIn', logIn);
 
 module.exports = router;
