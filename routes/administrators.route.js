@@ -1,6 +1,5 @@
 const {
   UsersController,
-  signUp,
   logIn,
 } = require('../controllers/users.controller');
 const router = require('express').Router();
@@ -66,7 +65,6 @@ router.delete('/:id', async (req, res, next) => {
     }
 });
 
-router.post('/signUp', signUp);
 router.post('/logIn', logIn);
 
 module.exports = router;
