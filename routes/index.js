@@ -1,8 +1,8 @@
 const express = require('express');
-const cars = require('./cars.route');
+const cars = require('S./cars.route');
 const sales = require('./sales.route');
-const customers = customers('./customers.route');
-const administrators = administrators('./administrators.route');
+const customers = require('./customers.route');
+const administrators = require('./administrators.route');
 
 const routerApi = (app) => {
     const router = express.Router();

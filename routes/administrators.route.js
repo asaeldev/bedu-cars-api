@@ -1,19 +1,18 @@
-const router = require('express').Router();
-
 const {
-    UsersController,
-    signUp,
-    logIn,
+  UsersController,
+  signUp,
+  logIn,
 } = require('../controllers/users.controller');
+const router = require('express').Router();
 
 const usersController = new UsersController();
 
-router.get('/administrators', async (req, res) => {
+router.get('/', async (req, res) => {
     const administrators = await usersController.all('administrator');
     return res.status(200).json(administrators);
 });
   
-router.get('/administrators/:id', async (req, res, next) => {
+router.get('/:id', async (req, res, next) => {
     const { id } = req.params;
   
     try {
@@ -24,7 +23,7 @@ router.get('/administrators/:id', async (req, res, next) => {
     }
 });
   
-router.post('/administrators', async (req, res, next) => {
+router.post('/', async (req, res, next) => {
     const data = req.body;
   
     try {
@@ -38,7 +37,7 @@ router.post('/administrators', async (req, res, next) => {
     }
 });
   
-router.patch('/administrators/:id', async (req, res, next) => {
+router.patch('/:id', async (req, res, next) => {
     const data = req.body;
     const { id } = req.params;
   
@@ -54,7 +53,7 @@ router.patch('/administrators/:id', async (req, res, next) => {
     }
 });
   
-router.delete('/administrators/:id', async (req, res, next) => {
+router.delete('/:id', async (req, res, next) => {
     const { id } = req.params;
   
     try {

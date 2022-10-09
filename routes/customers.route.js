@@ -1,19 +1,19 @@
-const router = require('express').Router();
-
-const usersController = new UsersController();
 const {
   UsersController,
   signUp,
   logIn,
 } = require('../controllers/users.controller');
+const router = require('express').Router();
 
-router.get('/customers', async (req, res) => {
+const usersController = new UsersController();
+
+router.get('/', async (req, res) => {
   const customers = await usersController.all();
 
   return res.status(200).json(customers);
 });
 
-router.get('/customers/:id', async (req, res, next) => {
+router.get('/:id', async (req, res, next) => {
   const { id } = req.params;
   try {
     const customer = await usersController.findOne(id);
@@ -23,7 +23,7 @@ router.get('/customers/:id', async (req, res, next) => {
   }
 });
 
-router.post('/customers', async (req, res, next) => {
+router.post('/', async (req, res, next) => {
   const data = req.body;
 
   try {
@@ -37,7 +37,7 @@ router.post('/customers', async (req, res, next) => {
   }
 });
 
-router.patch('/customers/:id', async (req, res, next) => {
+router.patch('/:id', async (req, res, next) => {
   const data = req.body;
   const { id } = req.params;
 
@@ -53,7 +53,7 @@ router.patch('/customers/:id', async (req, res, next) => {
   }
 });
 
-router.delete('/customers/:id', async (req, res, next) => {
+router.delete('/:id', async (req, res, next) => {
   const { id } = req.params;
 
   try {
