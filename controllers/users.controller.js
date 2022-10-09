@@ -58,7 +58,7 @@ class UsersController {
   }
 
   async delete(id, role = 'customer') {
-    const user = await this.findOne(id);
+    const user = await this.findOne(id, role);
     return await models.Users.destroy({
       where: { id: user.id, role },
     });
@@ -72,9 +72,9 @@ async function logIn(req, res) {
     return res.status(404).json({ error: 'User not found' });
   }
   if (user.validatePassword(body['password'])) {
-    return res.status(200).json({mensaje: 'Welcome' });
+    return res.status(200).json({ mensaje: 'Welcome' });
   } else {
     return res.status(400).json({ mensaje: 'Incorrect Password' });
   }
 }
-module.exports = { UsersController, logIn }
+module.exports = { UsersController, logIn };
