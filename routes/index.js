@@ -1,10 +1,10 @@
 const router = require('express').Router();
 const cars = require('./cars.route');
-const sales = require('./sales.route')
-const user = user('./user.route')
+const sales = require('./sales.route');
+const user = user('./user.route');
 
 router.get('/', (req, res) => {
-    res.json({ 'info': 'Welcome to BEDU-CARS API' })
+    res.json({ 'info': 'Welcome to BEDU-CARS API' });
 });
 
 router.use('/cars.route', cars);

@@ -1,4 +1,5 @@
 const boom = require('@hapi/boom');
+const { Users } = require('../db/models/users.model');
 const { models } = require('../libs/sequelize');
 
 const publicAttributes = ['id', 'name', 'userName', 'email'];
@@ -57,4 +58,38 @@ class UsersController {
   }
 }
 
+async function signUp(req, res) {
+  const body = req.body;
+  try {
+    const user = await Users.create(body);
+    const { salt, hash } = Users.createPassword(body['password']);
+    user.passsword_salt = salt;
+    user.passsword_hash = hash;
+    await user.save();
+    res.status(201).json(user);
+  } catch (err) {
+    if (["SequelizeValidationError", "SequelizeUniqueConstraintError"].includes(err.name)) {
+      return res.status(400).json({
+        error: err.errors.map(e => e.message)
+      })
+    }
+    else {
+      throw err;
+    }
+  }
+}
+
+async function logIn(req, res) {
+  const body = req.body;
+  const user = Users.findOne({ userName: body['userName'] });
+  if (!user) {
+    return res.status(404).json({ error: "User not found" });
+  }
+  if (user.validatePassword(body['password'])) {
+    return res.status(200).json({mensaje: "Welcome" });
+  } else {
+    return res.status(400).json({mensaje: "Incorrect Password"})
+  }
+}
 module.exports = UsersController;
+module.exports = { signUp, logIn }

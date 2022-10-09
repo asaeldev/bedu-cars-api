@@ -289,3 +289,20 @@ app.use(boomErrorHandler);
 app.listen(config.port, () => {
   console.log('App running on port:', config.port);
 });
+
+// Body Parser
+
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+//Configuration of routes
+
+app.use('/v1', require('./routes'));
+
+// Starting the Server
+
+const PORT = 4001;
+app.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`);
+})

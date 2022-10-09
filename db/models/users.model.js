@@ -1,6 +1,10 @@
 const { Model, DataTypes } = require('sequelize');
+const crypto = require('crypto');
+const sequelize = require('../config/db');
 
 const USERS_TABLE = 'users';
+
+//Moduls for helper methods
 
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken'); 
@@ -40,6 +44,14 @@ const UsersSchema = {
       len: [8, 50],
     },
   },
+  password_hash: {
+    type: DataTypes.CHAR(64),
+    allowNull: true,
+  },
+  password_salt: {
+    type: DataTypes.CHAR(64),
+    allowNull: true,
+  },
   role: {
     allowNull: false,
     type: DataTypes.STRING,
@@ -67,6 +79,18 @@ class Users extends Model {
       timestamps: true,
     };
   }
+}
+
+Users.createPassword = function(plainText) {
+  const salt = crypto.randomBytes(16).toString('hex');
+  const hash = crypto.pbkdf2Sync(plainText, salt, 10000, 512, "sha512").toString("hex");
+  return {salt: salt, hash: hash}
+}
+
+Users.validatePassword = function(password) {
+  const hash = crypto
+    .pbkdf2Sync(password, salt, 10000, 512, "sha512").toString("hex");
+  return this.password_hash === hash;
 }
 
 module.exports = { USERS_TABLE, Users, UsersSchema };
