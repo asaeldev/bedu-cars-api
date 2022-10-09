@@ -2,6 +2,10 @@ const { Model, DataTypes } = require('sequelize');
 
 const USERS_TABLE = 'users';
 
+const crypto = require('crypto');
+const jwt = require('jsonwebtoken'); 
+const secret = require('../config').secret; 
+
 const UsersSchema = {
   id: {
     type: DataTypes.INTEGER,
@@ -15,6 +19,11 @@ const UsersSchema = {
   },
   userName: {
     type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+    validate: {
+      is: /^[a-zA-Z0-9_-]+$/
+    }
   },
   email: {
     allowNull: false,

@@ -9,6 +9,7 @@ const {
   boomErrorHandler,
   ormErrorHandler,
 } = require('./middlewares/error.handler');
+const routes = require('./routes')
 
 const app = express();
 
@@ -26,6 +27,7 @@ const corsSettings = {
 
 app.use(express.json());
 app.use(cors(corsSettings));
+app.use('/', routes);
 
 app.get('/', (req, res) => {
   res.send('Welcome to Bedu Used Cars for Sale API!');
