@@ -5,7 +5,6 @@ const {
   boomErrorHandler,
   ormErrorHandler,
 } = require('./middlewares/error.handler');
-const sequelize = require('./libs/sequelize');
 const routerApi = require('./routes');
 
 const app = express();
