@@ -1,10 +1,7 @@
 const router = require('express').Router();
-const salesController = new SalesController();
 const SalesController = require('../controllers/sales.controller');
-const {
-    boomErrorHandler,
-    ormErrorHandler,
-  } = require('./middlewares/error.handler');
+
+const salesController = new SalesController();
 
 router.get('/', async (req, res) => {
   const { fields } = req.query;
@@ -65,13 +62,6 @@ router.delete('/:id', async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-});
-
-app.use(ormErrorHandler);
-app.use(boomErrorHandler);
-
-app.listen(config.port, () => {
-  console.log('App running on port:', config.port);
 });
 
 module.exports = router;
