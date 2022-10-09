@@ -77,4 +77,4 @@ async function logIn(req, res) {
     return res.status(400).json({ mensaje: 'Incorrect Password' });
   }
 }
-module.exports = { UsersController, signUp, logIn }
+module.exports = { UsersController, logIn }
