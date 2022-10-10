@@ -3,6 +3,98 @@ const { UsersController } = require('../controllers/users.controller');
 
 const usersController = new UsersController();
 
+/**
+ * @swagger
+ * /api/v1/customers:
+ *   get:
+ *     summary: Lists all the customers
+ *     description: Get the entire list of customers
+ *     produces:
+ *      - application/json
+ *     responses:
+ *       200:
+ *         description: Returns the entire list of customers.
+ */
+
+/**
+ * @swagger
+ * /api/v1/customers/{id}:
+ *   get:
+ *     summary: Select a specific customer
+ *     description: Get the information of a customer
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: Numeric ID of the customer.
+ *     produces:
+ *      - application/json
+ *     responses:
+ *       200:
+ *         description: Returns the information of a customer.
+ */
+
+/**
+ * @swagger
+ * /api/v1/customers:
+ *   post:
+ *     summary: Create a new customer
+ *     description: Add a new customer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: Name of the Customer.
+ *                 example: Ramiro Hernandez
+ *               UserName:
+ *                 type: string
+ *                 description: Customer Username
+ *                 example: Ramiro_Hernandez
+ *               email:
+ *                 type: string
+ *                 description: Email of the Customer
+ *                 example: Ramiro@mail.com
+ *     produces:
+ *      - application/json
+ *     responses:
+ *       200:
+ *         description: Registers a new customer.
+ */
+
+/**
+ * @swagger
+ * /api/v1/customers/{id}:
+ *   delete:
+ *     summary: Deletes a customer register
+ *     description: Deletes a customer register specified by ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: Numeric ID of the sale.
+ *     requestBody:
+ *       required: false
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               userName:
+ *                 type: string
+ *                 description: Name of the user
+ *                 example: evelyn
+ *     produces:
+ *      - application/json
+ *     responses:
+ *       200:
+ *         description: Deletes a car sale.
+ */
+
 router.get('/', async (req, res) => {
   const customers = await usersController.all();
 
