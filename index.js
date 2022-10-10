@@ -2,8 +2,8 @@ const config = require('./config/config');
 const express = require('express');
 const cors = require('cors');
 const {
-  boomErrorHandler,
   ormErrorHandler,
+  boomErrorHandler,
 } = require('./middlewares/error.handler');
 const routerApi = require('./routes');
 
