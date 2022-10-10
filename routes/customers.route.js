@@ -1,6 +1,5 @@
-
 const router = require('express').Router();
-const {UsersController} = require('../controllers/users.controller');
+const { UsersController } = require('../controllers/users.controller');
 
 const usersController = new UsersController();
 
@@ -19,7 +18,6 @@ router.get('/:id', async (req, res, next) => {
     next(error);
   }
 });
-
 
 router.post('/', async (req, res, next) => {
   const data = req.body;
@@ -65,20 +63,21 @@ router.delete('/:id', async (req, res, next) => {
 });
 
 router.post('/login', async (req, res, next) => {
-  const { userName, password } = req.body;
+  const { email, password } = req.body;
 
   try {
-    const token = await usersController.login(userName, password, role = 'customer');
+    const token = await usersController.login(email, password, 'customer');
     if (!token) {
-      return res.status('404').json({
-        message: 'Credentials are not correct, please verify them and try again.'
+      return res.status(404).json({
+        message:
+          'Credentials are not correct, please verify them and try again.',
       });
     }
 
     return res.status(200).json({
       success: true,
-      token: token
-    })
+      token: token,
+    });
   } catch (error) {
     next(error);
   }

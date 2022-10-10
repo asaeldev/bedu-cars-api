@@ -5,7 +5,7 @@ const { models } = require('../libs/sequelize');
 const publicAttributes = ['id', 'name', 'userName', 'email'];
 
 class UsersController {
-  constructor() { }
+  constructor() {}
 
   async all(role = 'customer') {
     return await models.Users.findAll({
@@ -40,6 +40,7 @@ class UsersController {
         password_salt: salt,
       });
     } catch (error) {
+      console.log(error);
       throw new boom.internal(error.message);
     }
   }
@@ -63,14 +64,16 @@ class UsersController {
       where: { id: user.id, role },
     });
   }
-  
+
   async login(userName, password, role = 'customer') {
-    const user = await Users.findOne({ userName });
+    const user = await Users.findOne({ where: { email: userName } });
     console.log('User:', user);
     if (user === null) {
       throw new boom.notFound('User not found');
     }
-    if (Users.validatePassword(password, user.password_hash, user.password_salt)) {
+    if (
+      Users.validatePassword(password, user.password_hash, user.password_salt)
+    ) {
       return Users.generateJWT(user);
     } else {
       return null;

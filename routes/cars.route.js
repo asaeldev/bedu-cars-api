@@ -1,5 +1,7 @@
-const CarsController = require('../controllers/cars.controller');
 const router = require('express').Router();
+const passport = require('passport');
+const { checkRoles } = require('../middlewares/auth.handler');
+const CarsController = require('../controllers/cars.controller');
 
 const carsController = new CarsController();
 
@@ -19,47 +21,62 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
-router.post('/', async (req, res, next) => {
-  const data = req.body;
+router.post(
+  '/',
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('administrator'),
+  async (req, res, next) => {
+    const data = req.body;
 
-  try {
-    const car = await carsController.create(data);
-    return res.status(201).json({
-      created: car !== null,
-      data: car,
-    });
-  } catch (error) {
-    next(error);
+    try {
+      const car = await carsController.create(data);
+      return res.status(201).json({
+        created: car !== null,
+        data: car,
+      });
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
-router.patch('/:id', async (req, res, next) => {
-  const data = req.body;
-  const { id } = req.params;
+router.patch(
+  '/:id',
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('administrator'),
+  async (req, res, next) => {
+    const data = req.body;
+    const { id } = req.params;
 
-  try {
-    const updatedRecords = await carsController.update(id, data);
-    const customer = await carsController.findOne(id);
-    return res.status(200).json({
-      updated: updatedRecords > 0,
-      data: customer,
-    });
-  } catch (error) {
-    next(error);
+    try {
+      const updatedRecords = await carsController.update(id, data);
+      const customer = await carsController.findOne(id);
+      return res.status(200).json({
+        updated: updatedRecords > 0,
+        data: customer,
+      });
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
-router.delete('/:id', async (req, res, next) => {
-  const { id } = req.params;
+router.delete(
+  '/:id',
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('administrator'),
+  async (req, res, next) => {
+    const { id } = req.params;
 
-  try {
-    const deletedRows = await carsController.delete(id);
-    return res.status(200).json({
-      deleted: deletedRows > 0,
-    });
-  } catch (error) {
-    next(error);
+    try {
+      const deletedRows = await carsController.delete(id);
+      return res.status(200).json({
+        deleted: deletedRows > 0,
+      });
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 module.exports = router;

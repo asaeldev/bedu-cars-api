@@ -18,6 +18,6 @@ if (config.env === 'production') {
 const sequelize = new Sequelize(config.dbUri, options);
 
 setupModels(sequelize);
-sequelize.sync({ force: true });
+sequelize.sync();
 
 module.exports = sequelize;
