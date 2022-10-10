@@ -45,13 +45,13 @@
 					"response": []
 				},
 				{
-					"name": "Create Customer",
+					"name": "Sign Up Customer",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Ramiro Hernández\",\r\n    \"userName\": \"ramiro.hernandez\",\r\n    \"email\": \"ramiro@mail.com\",\r\n    \"password\": \"password1584%\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Juan Pérez\",\r\n    \"userName\": \"juan_perez\",\r\n    \"email\": \"juan@mail.com\",\r\n    \"password\": \"password1584%\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -71,13 +71,13 @@
 					"response": []
 				},
 				{
-					"name": "Update Customer",
+					"name": "Login Customer",
 					"request": {
-						"method": "PATCH",
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"userName\": \"evelyn\"\r\n}",
+							"raw": "{\r\n    \"email\": \"juan@mail.com\",\r\n    \"password\": \"password1584%\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -85,13 +85,40 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/customers/20",
+							"raw": "{{host}}/customers/login",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"customers",
-								"20"
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Customer",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userName\": \"joaquin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/customers/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"customers",
+								"1"
 							]
 						}
 					},
@@ -165,7 +192,7 @@
 					"response": []
 				},
 				{
-					"name": "Create Administrator",
+					"name": "Sign Up Administrator",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -191,13 +218,13 @@
 					"response": []
 				},
 				{
-					"name": "Update Administrator",
+					"name": "Login Administrator",
 					"request": {
-						"method": "PATCH",
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"userName\": \"evelyn\"\r\n}",
+							"raw": "{\r\n    \"email\": \"admin@mail.com\",\r\n    \"password\": \"password12345%\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -205,13 +232,40 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/customers/20",
+							"raw": "{{host}}/administrators/login",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"customers",
-								"20"
+								"administrators",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Administrator",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userName\": \"daniel\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/administrators/2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"administrators",
+								"2"
 							]
 						}
 					},
@@ -232,17 +286,47 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/administrators/20",
+							"raw": "{{host}}/administrators/1",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"administrators",
-								"20"
+								"1"
 							]
 						}
 					},
 					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiYWRtaW4iLCJleHAiOjE2NzA1NTk2ODAsImlhdCI6MTY2NTM3MjA4MH0.s_MTT4iSGL8Lh9U8f_3EC6rqJv75DVdOTes1sPhpNUo",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		},
@@ -272,13 +356,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/cars/1",
+							"raw": "{{host}}/cars/2",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"cars",
-								"1"
+								"2"
 							]
 						}
 					},
@@ -317,7 +401,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"year\": \"2018\",\r\n    \"model\": \"X6\"\r\n}",
+							"raw": "{\r\n    \"year\": \"2018\",\r\n    \"model\": \"X200\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -364,6 +448,36 @@
 					},
 					"response": []
 				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoianVhbl9wZXJleiIsImV4cCI6MTY3MDU2MDQ2MCwiaWF0IjoxNjY1MzcyODYwfQ.GQsKWN21vubbJzl4yVc9W9fHoIO-VIPlU9jqMVjcaco",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
 			]
 		},
 		{
@@ -392,7 +506,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/sales?fields=id,quantity,total",
+							"raw": "{{host}}/sales?fields=id,total,quantity",
 							"host": [
 								"{{host}}"
 							],
@@ -402,7 +516,7 @@
 							"query": [
 								{
 									"key": "fields",
-									"value": "id,quantity,total"
+									"value": "id,total,quantity"
 								}
 							]
 						}
@@ -475,33 +589,6 @@
 							"path": [
 								"sales",
 								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Delete Sale",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"userName\": \"evelyn\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{host}}/sales/16",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"sales",
-								"16"
 							]
 						}
 					},
