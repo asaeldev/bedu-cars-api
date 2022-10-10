@@ -95,7 +95,6 @@ async function logIn(req, res) {
       user: user.userName,
       email: user.email,
       token: Users.generateJWT(user),
-      // mensaje: 'Welcome'
     });
   } else {
     return res.status(400).json({ mensaje: 'Incorrect Password' });
