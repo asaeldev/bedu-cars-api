@@ -1,5 +1,5 @@
-const router = require('express').Router();
 
+const router = require('express').Router();
 const {UsersController} = require('../controllers/users.controller');
 
 const usersController = new UsersController();
@@ -20,7 +20,8 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
-router.post('', async (req, res, next) => {
+
+router.post('/', async (req, res, next) => {
   const data = req.body;
 
   try {

@@ -32,13 +32,6 @@ const UsersSchema = {
       isEmail: true,
     },
   },
-  password: {
-    allowNull: false,
-    type: DataTypes.STRING,
-    validate: {
-      len: [8, 50],
-    },
-  },
   password_hash: {
     type: DataTypes.TEXT(512),
     allowNull: true,
@@ -101,6 +94,5 @@ Users.generateJWT = function (user) {
     exp: parseInt(exp.getTime() / 1000)
   }, secret);
 }
-
 
 module.exports = { USERS_TABLE, Users, UsersSchema };

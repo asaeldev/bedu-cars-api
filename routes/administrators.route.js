@@ -1,9 +1,8 @@
-const router = require('express').Router();
 
+const router = require('express').Router();
 const { UsersController } = require('../controllers/users.controller');
 const usersController = new UsersController();
 
-// Routes for administrators.
 router.get('/', async (req, res) => {
   const administrators = await usersController.all('administrator');
   return res.status(200).json(administrators);
@@ -39,7 +38,7 @@ router.patch('/:id', async (req, res, next) => {
   const { id } = req.params;
 
   try {
-    const rowsUpdated = await usersController.update(id, data);
+    const rowsUpdated = await usersController.update(id, data, 'administrator');
     const administrator = await usersController.findOne(id, 'administrator');
     return res.status(200).json({
       updated: rowsUpdated > 0,
@@ -56,7 +55,7 @@ router.delete('/:id', async (req, res, next) => {
   try {
     const deleted = await usersController.delete(id, 'administrator');
     return res.status(200).json({
-      deleted: true,
+      deleted: deleted > 0,
     });
   } catch (error) {
     next(error);

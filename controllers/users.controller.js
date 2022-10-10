@@ -58,12 +58,12 @@ class UsersController {
   }
 
   async delete(id, role = 'customer') {
-    const user = await this.findOne(id);
+    const user = await this.findOne(id, role);
     return await models.Users.destroy({
       where: { id: user.id, role },
     });
   }
-
+  
   async login(userName, password, role = 'customer') {
     const user = await Users.findOne({ userName });
     console.log('User:', user);
