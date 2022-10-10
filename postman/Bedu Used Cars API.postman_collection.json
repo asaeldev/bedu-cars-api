@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "107c0a5c-1501-48d7-8cb4-ff38faae9ca6",
+		"_postman_id": "5477b2a2-2a2f-42f9-9ced-3d8efea2a20b",
 		"name": "Bedu Used Cars API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "7533583"
@@ -72,6 +72,22 @@
 				},
 				{
 					"name": "Login Customer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"const {token} = response;\r",
+									"\r",
+									"if(token){\r",
+									"    pm.environment.set('customerToken', token);\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -129,15 +145,6 @@
 					"request": {
 						"method": "DELETE",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"userName\": \"evelyn\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
 							"raw": "{{host}}/customers/1",
 							"host": [
@@ -219,6 +226,22 @@
 				},
 				{
 					"name": "Login Administrator",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"const {token} = response;\r",
+									"\r",
+									"if(token){\r",
+									"    pm.environment.set('adminToken', token);\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -276,15 +299,6 @@
 					"request": {
 						"method": "DELETE",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"userName\": \"evelyn\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
 							"raw": "{{host}}/administrators/1",
 							"host": [
@@ -304,7 +318,7 @@
 				"bearer": [
 					{
 						"key": "token",
-						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiYWRtaW4iLCJleHAiOjE2NzA1NTk2ODAsImlhdCI6MTY2NTM3MjA4MH0.s_MTT4iSGL8Lh9U8f_3EC6rqJv75DVdOTes1sPhpNUo",
+						"value": "{{adminToken}}",
 						"type": "string"
 					}
 				]
@@ -371,6 +385,16 @@
 				{
 					"name": "Create Car",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -397,6 +421,16 @@
 				{
 					"name": "Update Car",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PATCH",
 						"header": [],
 						"body": {
@@ -424,17 +458,18 @@
 				{
 					"name": "Delete Car",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"userName\": \"evelyn\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
 							"raw": "{{host}}/cars/3",
 							"host": [
@@ -454,7 +489,7 @@
 				"bearer": [
 					{
 						"key": "token",
-						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoianVhbl9wZXJleiIsImV4cCI6MTY3MDU2MDQ2MCwiaWF0IjoxNjY1MzcyODYwfQ.GQsKWN21vubbJzl4yVc9W9fHoIO-VIPlU9jqMVjcaco",
+						"value": "{{customerToken}}",
 						"type": "string"
 					}
 				]
@@ -506,7 +541,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/sales?fields=id,total,quantity",
+							"raw": "{{host}}/sales?fields=id,total,quantity,status",
 							"host": [
 								"{{host}}"
 							],
@@ -516,7 +551,7 @@
 							"query": [
 								{
 									"key": "fields",
-									"value": "id,total,quantity"
+									"value": "id,total,quantity,status"
 								}
 							]
 						}
@@ -548,7 +583,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"quantity\": 1,\r\n    \"CarId\": 1,\r\n    \"UserId\": 1\r\n}",
+							"raw": "{\r\n    \"quantity\": 1,\r\n    \"CarId\": 2,\r\n    \"UserId\": 2\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -570,6 +605,16 @@
 				{
 					"name": "Update Sale Status",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PATCH",
 						"header": [],
 						"body": {
@@ -593,6 +638,36 @@
 						}
 					},
 					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		}

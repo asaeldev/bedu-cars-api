@@ -1,5 +1,8 @@
 const boom = require('@hapi/boom');
 const { models } = require('../libs/sequelize');
+const {
+  publicAttributes: userAttributes,
+} = require('../controllers/users.controller');
 
 const publicAttributes = ['id', 'quantity', 'status', 'total'];
 
@@ -10,7 +13,14 @@ class SalesController {
     const attributes = fields !== null ? fields : publicAttributes;
     return await models.Sales.findAll({
       attributes: attributes,
-      include: ['Car', 'User'],
+      include: [
+        'Car',
+        {
+          model: models.Users,
+          as: 'User',
+          attributes: userAttributes,
+        },
+      ],
     });
   }
 
@@ -20,7 +30,14 @@ class SalesController {
       where: {
         id,
       },
-      include: ['Car', 'User'],
+      include: [
+        'Car',
+        {
+          model: models.Users,
+          as: 'User',
+          attributes: userAttributes,
+        },
+      ],
     });
 
     if (!sale) {
