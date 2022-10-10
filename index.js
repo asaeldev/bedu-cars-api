@@ -24,6 +24,8 @@ const corsSettings = {
 app.use(express.json());
 app.use(cors(corsSettings));
 
+require('./utils/auth/index');
+
 app.get('/', (req, res) => {
   res.send('Welcome to Bedu Used Cars for Sale API!');
 });
