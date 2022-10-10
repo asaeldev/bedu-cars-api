@@ -4,6 +4,19 @@ const passport = require('passport');
 const { checkRoles } = require('./../middlewares/auth.handler');
 const usersController = new UsersController();
 
+/**
+ * @swagger
+ * /api/v1/administrators:
+ *   get:
+ *     summary: Lists all the administrator users
+ *     description: Get the entire list of administrator users
+ *     produces:
+ *      - application/json
+ *     responses:
+ *       200:
+ *         description: Returns the entire list of administrator users.
+ */
+
 router.get(
   '/',
   passport.authenticate('jwt', { session: false }),

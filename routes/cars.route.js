@@ -5,6 +5,18 @@ const CarsController = require('../controllers/cars.controller');
 
 const carsController = new CarsController();
 
+/**
+ * @swagger
+ * /api/v1/cars:
+ *   get:
+ *     summary: Lists all the used cars
+ *     description: Get the entire list of administrator users
+ *     produces:
+ *      - application/json
+ *     responses:
+ *       200:
+ *         description: Returns the entire list of administrator users.
+ */
 router.get('/', async (req, res) => {
   const cars = await carsController.all();
   return res.status(200).json(cars);
