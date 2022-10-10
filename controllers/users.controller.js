@@ -5,7 +5,7 @@ const { models } = require('../libs/sequelize');
 const publicAttributes = ['id', 'name', 'userName', 'email'];
 
 class UsersController {
-  constructor() {}
+  constructor() { }
 
   async all(role = 'customer') {
     return await models.Users.findAll({
@@ -63,41 +63,19 @@ class UsersController {
       where: { id: user.id, role },
     });
   }
-}
 
-async function signUp(req, res) {
-  const body = req.body;
-  try {
-    res.status(201).json(user);
-  } catch (err) {
-    if (
-      ['SequelizeValidationError', 'SequelizeUniqueConstraintError'].includes(
-        err.name
-      )
-    ) {
-      return res.status(400).json({
-        error: err.errors.map((e) => e.message),
-      });
+  async login(userName, password, role = 'customer') {
+    const user = await Users.findOne({ userName });
+    console.log('User:', user);
+    if (user === null) {
+      throw new boom.notFound('User not found');
+    }
+    if (Users.validatePassword(password, user.password_hash, user.password_salt)) {
+      return Users.generateJWT(user);
     } else {
-      throw err;
+      return null;
     }
   }
 }
 
-async function logIn(req, res) {
-  const body = req.body;
-  const user = Users.findOne({ userName: body['userName'] });
-  if (!user) {
-    return res.status(404).json({ error: 'User not found' });
-  }
-  if (user.validatePassword(body['password'])) {
-    return res.status(200).json({
-      user: user.userName,
-      email: user.email,
-      token: Users.generateJWT(user),
-    });
-  } else {
-    return res.status(400).json({ mensaje: 'Incorrect Password' });
-  }
-}
-module.exports = { UsersController, signUp, logIn };
+module.exports = { UsersController };

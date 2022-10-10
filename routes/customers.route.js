@@ -1,10 +1,6 @@
 const router = require('express').Router();
 
-const {
-  UsersController,
-  signUp,
-  logIn,
-} = require('../controllers/users.controller');
+const {UsersController} = require('../controllers/users.controller');
 
 const usersController = new UsersController();
 
@@ -67,7 +63,24 @@ router.delete('/:id', async (req, res, next) => {
   }
 });
 
-router.post('/signUp', signUp);
-router.post('/logIn', logIn);
+router.post('/login', async (req, res, next) => {
+  const { userName, password } = req.body;
+
+  try {
+    const token = await usersController.login(userName, password, role = 'customer');
+    if (!token) {
+      return res.status('404').json({
+        message: 'Credentials are not correct, please verify them and try again.'
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      token: token
+    })
+  } catch (error) {
+    next(error);
+  }
+});
 
 module.exports = router;

@@ -1,9 +1,7 @@
 const { Model, DataTypes } = require('sequelize');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
-const secret = require('../config/secret') // Corroborar que esté correcta la ruta
-const { parse } = require('path');
-
+const secret = require('../../config/secret');
 
 const USERS_TABLE = 'users';
 
@@ -86,21 +84,22 @@ Users.createPassword = function (plainText) {
   return { salt: salt, hash: hash };
 };
 
-Users.validatePassword = function (password) {
+Users.validatePassword = function (password, password_hash, salt) {
   const hash = crypto
     .pbkdf2Sync(password, salt, 10000, 512, 'sha512')
     .toString('hex');
-  return this.password_hash === hash;
+  return password_hash === hash;
 };
 
 Users.generateJWT = function (user) {
   const today = new Date();
   const exp = new Date(today);
   exp.setDate(today.getDate() + 60);
+  console.log('User from generateJWT: ', user)
   return jwt.sign({
     user: user.userName,
     exp: parseInt(exp.getTime() / 1000)
-  },secret);
+  }, secret);
 }
 
 
