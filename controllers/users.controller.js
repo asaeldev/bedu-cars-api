@@ -33,15 +33,16 @@ class UsersController {
     try {
       const { password } = data;
       const { salt, hash } = Users.createPassword(password);
-      return await models.Users.create({
+      const user = await models.Users.create({
         ...data,
         role,
         password_hash: hash,
         password_salt: salt,
       });
+
+      return this.findOne(user.id, role);
     } catch (error) {
-      console.log(error);
-      throw new boom.internal(error.message);
+      throw new boom.internal('Internal error occurred');
     }
   }
 
@@ -67,7 +68,6 @@ class UsersController {
 
   async login(userName, password, role = 'customer') {
     const user = await Users.findOne({ where: { email: userName } });
-    console.log('User:', user);
     if (user === null) {
       throw new boom.notFound('User not found');
     }

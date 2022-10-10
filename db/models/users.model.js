@@ -88,11 +88,13 @@ Users.generateJWT = function (user) {
   const today = new Date();
   const exp = new Date(today);
   exp.setDate(today.getDate() + 60);
-  console.log('User from generateJWT: ', user)
-  return jwt.sign({
-    user: user.userName,
-    exp: parseInt(exp.getTime() / 1000)
-  }, secret);
-}
+  return jwt.sign(
+    {
+      user: user.userName,
+      exp: parseInt(exp.getTime() / 1000),
+    },
+    secret
+  );
+};
 
 module.exports = { USERS_TABLE, Users, UsersSchema };
