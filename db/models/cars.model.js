@@ -32,6 +32,12 @@ const CarsSchema = {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  createdAt: {
+    type: DataTypes.DATE,
+  },
+  updatedAt: {
+    type: DataTypes.DATE,
+  },
 };
 
 class Cars extends Model {

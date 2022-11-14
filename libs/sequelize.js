@@ -3,7 +3,8 @@ const config = require('../config/config');
 const setupModels = require('../db/models/index');
 
 const options = {
-  dialect: 'postgres',
+  host: config.dbHost,
+  dialect: config.dbDialect,
   logging: config.env === 'production' ? console.log : () => {},
 };
 
@@ -15,7 +16,12 @@ if (config.env === 'production') {
   };
 }
 
-const sequelize = new Sequelize(config.dbUri, options);
+const sequelize = new Sequelize(
+  config.dbName,
+  config.dbUserName,
+  config.dbPassword,
+  options
+);
 
 setupModels(sequelize);
 sequelize.sync();

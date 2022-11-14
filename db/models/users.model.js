@@ -1,5 +1,6 @@
 const { Model, DataTypes } = require('sequelize');
 const crypto = require('crypto');
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const secret = require('../../config/secret');
 
@@ -32,12 +33,8 @@ const UsersSchema = {
       isEmail: true,
     },
   },
-  password_hash: {
-    type: DataTypes.TEXT(512),
-    allowNull: true,
-  },
-  password_salt: {
-    type: DataTypes.STRING,
+  password: {
+    type: DataTypes.STRING(512),
     allowNull: true,
   },
   role: {
@@ -51,6 +48,12 @@ const UsersSchema = {
   token: {
     allowNull: true,
     type: DataTypes.STRING,
+  },
+  createdAt: {
+    type: DataTypes.DATE,
+  },
+  updatedAt: {
+    type: DataTypes.DATE,
   },
 };
 
@@ -70,18 +73,11 @@ class Users extends Model {
 }
 
 Users.createPassword = function (plainText) {
-  const salt = crypto.randomBytes(16).toString('hex');
-  const hash = crypto
-    .pbkdf2Sync(plainText, salt, 10000, 512, 'sha512')
-    .toString('hex');
-  return { salt: salt, hash: hash };
+  return bcrypt.hashSync(plainText, 10);
 };
 
-Users.validatePassword = function (password, password_hash, salt) {
-  const hash = crypto
-    .pbkdf2Sync(password, salt, 10000, 512, 'sha512')
-    .toString('hex');
-  return password_hash === hash;
+Users.validatePassword = function (password, password_hash) {
+  return bcrypt.compareSync(password, password_hash);
 };
 
 Users.generateJWT = function (user) {

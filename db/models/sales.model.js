@@ -26,6 +26,12 @@ const SalesSchema = {
   total: {
     type: DataTypes.DECIMAL,
   },
+  createdAt: {
+    type: DataTypes.DATE,
+  },
+  updatedAt: {
+    type: DataTypes.DATE,
+  },
 };
 
 class Sales extends Model {

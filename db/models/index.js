@@ -10,6 +10,10 @@ function setupModels(sequelize) {
   Sales.associate(sequelize.models);
   Cars.associate(sequelize.models);
 
+  Users.addHook('beforeCreate', 'generatePassword', async (user, options) => {
+    user.password = Users.createPassword(user.password);
+  });
+
   Sales.addHook('beforeCreate', 'setTotal', async (sale, options) => {
     const car = await sequelize.models.Cars.findByPk(sale.CarId);
     sale.total = parseFloat(sale.quantity * car.price).toFixed(2);
