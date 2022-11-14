@@ -21,9 +21,13 @@ router.get(
   '/',
   passport.authenticate('jwt', { session: false }),
   checkRoles('administrator'),
-  async (req, res) => {
-    const administrators = await usersController.all('administrator');
-    return res.status(200).json(administrators);
+  async (req, res, next) => {
+    try {
+      const administrators = await usersController.all('administrator');
+      return res.status(200).json(administrators);
+    } catch (error) {
+      next(error);
+    }
   }
 );
 

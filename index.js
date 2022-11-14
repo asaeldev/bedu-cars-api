@@ -13,7 +13,7 @@ const routerApi = require('./routes');
 
 const app = express();
 
-const allowedDomains = ['https://localhost:3000'];
+const allowedDomains = ['http://localhost:3000'];
 
 const corsSettings = {
   origin: (origin, callback) => {

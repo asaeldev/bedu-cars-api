@@ -11,7 +11,7 @@ class UsersController {
     return await models.Users.findAll({
       attributes: publicAttributes,
       where: {
-        role: role,
+        role,
       },
     });
   }
@@ -31,13 +31,9 @@ class UsersController {
 
   async create(data, role = 'customer') {
     try {
-      const { password } = data;
-      const { salt, hash } = Users.createPassword(password);
       const user = await models.Users.create({
         ...data,
         role,
-        password_hash: hash,
-        password_salt: salt,
       });
 
       return this.findOne(user.id, role);
@@ -71,9 +67,7 @@ class UsersController {
     if (user === null) {
       throw new boom.notFound('User not found');
     }
-    if (
-      Users.validatePassword(password, user.password_hash, user.password_salt)
-    ) {
+    if (Users.validatePassword(password, user.password)) {
       return Users.generateJWT(user);
     } else {
       return null;
