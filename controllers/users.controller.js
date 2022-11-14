@@ -16,6 +16,18 @@ class UsersController {
     });
   }
 
+  async findByUserName(userName) {
+    const user = await models.Users.findOne({
+      where: { userName },
+    });
+
+    if (!user) {
+      throw new boom.notFound('User was not found.');
+    }
+
+    return user;
+  }
+
   async findOne(id, role = 'customer') {
     const user = await models.Users.findOne({
       attributes: publicAttributes,

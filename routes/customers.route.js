@@ -1,4 +1,6 @@
 const router = require('express').Router();
+const passport = require('passport');
+const { checkRoles } = require('../middlewares/auth.handler');
 const { UsersController } = require('../controllers/users.controller');
 
 const usersController = new UsersController();
@@ -95,21 +97,30 @@ const usersController = new UsersController();
  *         description: Deletes a car sale.
  */
 
-router.get('/', async (req, res) => {
-  const customers = await usersController.all();
-
-  return res.status(200).json(customers);
-});
-
-router.get('/:id', async (req, res, next) => {
-  const { id } = req.params;
-  try {
-    const customer = await usersController.findOne(id);
-    return res.status(200).json(customer);
-  } catch (error) {
-    next(error);
+router.get(
+  '/',
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('administrator'),
+  async (req, res) => {
+    const customers = await usersController.all();
+    return res.status(200).json(customers);
   }
-});
+);
+
+router.get(
+  '/:id',
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('administrator'),
+  async (req, res, next) => {
+    const { id } = req.params;
+    try {
+      const customer = await usersController.findOne(id);
+      return res.status(200).json(customer);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 router.post('/', async (req, res, next) => {
   const data = req.body;
@@ -125,34 +136,44 @@ router.post('/', async (req, res, next) => {
   }
 });
 
-router.patch('/:id', async (req, res, next) => {
-  const data = req.body;
-  const { id } = req.params;
+router.patch(
+  '/:id',
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('administrator'),
+  async (req, res, next) => {
+    const data = req.body;
+    const { id } = req.params;
 
-  try {
-    const updatedRecords = await usersController.update(id, data);
-    const customer = await usersController.findOne(id);
-    return res.status(200).json({
-      updated: updatedRecords > 0,
-      data: customer,
-    });
-  } catch (error) {
-    next(error);
+    try {
+      const updatedRecords = await usersController.update(id, data);
+      const customer = await usersController.findOne(id);
+      return res.status(200).json({
+        updated: updatedRecords > 0,
+        data: customer,
+      });
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
-router.delete('/:id', async (req, res, next) => {
-  const { id } = req.params;
+router.delete(
+  '/:id',
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('administrator'),
+  async (req, res, next) => {
+    const { id } = req.params;
 
-  try {
-    const deletedRows = await usersController.delete(id);
-    return res.status(200).json({
-      deleted: deletedRows > 0,
-    });
-  } catch (error) {
-    next(error);
+    try {
+      const deletedRows = await usersController.delete(id);
+      return res.status(200).json({
+        deleted: deletedRows > 0,
+      });
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 router.post('/login', async (req, res, next) => {
   const { email, password } = req.body;
