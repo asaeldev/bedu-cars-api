@@ -1,9 +1,12 @@
 const router = require('express').Router();
+const boom = require('@hapi/boom');
 const SalesController = require('../controllers/sales.controller');
+const { UsersController } = require('../controllers/users.controller');
 const passport = require('passport');
 const { checkRoles } = require('../middlewares/auth.handler');
 
 const salesController = new SalesController();
+const usersController = new UsersController();
 
 /**
  * @swagger
@@ -144,9 +147,18 @@ router.get(
   checkRoles('administrator', 'customer'),
   async (req, res, next) => {
     const { id } = req.params;
+    const user = await usersController.findByUserName(req.user.user);
 
     try {
-      const sale = await salesController.findOne(id);
+      let sale = await salesController.findOne(id);
+
+      console.log(user.role, sale.User.id, user.id);
+      if (user.role === 'customer' && sale.User.id !== user.id) {
+        throw new boom.forbidden('You cannot access this record.');
+      }
+
+      console.log('hello');
+
       return res.status(200).json(sale);
     } catch (error) {
       next(error);
